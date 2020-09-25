@@ -1,2 +1,1 @@
-hello ,jenkins
- I am uday
+Deploy this project on tomcat using Declarative script
