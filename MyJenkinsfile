@@ -1,0 +1,69 @@
+pipeline {
+ agent any 
+      stages {
+         stage('Source') {
+		   steps {
+		      git branch: 'mynewwbranch', url: 'https://github.com/PrashantBastapure/maven-project-1.git'
+			      }
+				 }
+				 
+		stage('Compile'){
+            steps {
+			   withMaven(jdk: 'JAVA_HOME', maven: 'MAVEN_HOME') {
+                      sh 'mvn clean compile'
+                     }
+                    }
+                  }
+
+		stage('Test'){
+		     steps {  
+               	withMaven(jdk: 'JAVA_HOME', maven: 'MAVEN_HOME') {
+                      sh 'mvn clean test'
+					  echo 'test the code'
+			        }
+				  }
+                }				  
+               	
+		stage('Build'){
+          steps {
+            withMaven(jdk: 'JAVA_HOME', maven: 'MAVEN_HOME') {
+                      sh 'mvn clean package'
+                     }
+                    }
+                  }
+
+        stage ('SSH Connection and Deploy'){
+             steps {
+			    sshagent(['tomcat']) {
+                    sh 'scp -o StrictHostKeyChecking=no */target/*.war ec2-user@107.23.195.120:/var/lib/tomcat/webapps'
+                          }
+                 		}
+					  }
+					  
+			}
+			
+		}			  
+		
+                			
+						
+							 
+							 
+							 
+							 
+							 
+							 
+							 
+							 
+							 
+							 
+							 
+							 
+							 
+							 
+							 
+							 
+							 
+							 
+							 
+							 
+							 
